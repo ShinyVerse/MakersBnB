@@ -4,7 +4,8 @@
   "description": "Javascript/Ruby clone of AirBnB",
   "main": "index.js",
   "scripts": {
-    "test": "test"
+    "test": "nyc jasmine",
+    "lint": "eslint"
   },
   "repository": {
     "type": "git",
@@ -22,6 +23,8 @@
   },
   "homepage": "https://github.com/ShinyVerse/MakersBnB#readme",
   "devDependencies": {
-    "eslint": "^5.6.1"
+    "eslint": "^5.6.1",
+    "jasmine": "^3.2.0",
+    "nyc": "^13.0.1"
   }
 }
