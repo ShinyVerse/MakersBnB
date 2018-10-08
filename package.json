@@ -1,0 +1,24 @@
+{
+  "name": "makersbnb",
+  "version": "1.0.0",
+  "description": "Javascript/Ruby clone of AirBnB",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ShinyVerse/MakersBnB.git"
+  },
+  "keywords": [
+    "javascript",
+    "ruby",
+    "airbnb"
+  ],
+  "author": "Laura Jackson, Andres Faraone-Pirie, Cristina Maria Ocana Manzano, Cameron Whitehead",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/ShinyVerse/MakersBnB/issues"
+  },
+  "homepage": "https://github.com/ShinyVerse/MakersBnB#readme"
+}
