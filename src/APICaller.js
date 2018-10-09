@@ -15,7 +15,7 @@ APICaller.prototype.sendNewUser = function(name, email, password) {
 
 APICaller.prototype.hashPassword = function (password){
   const salt = this.bcrypt.genSaltSync(10);
-  return this.bcrypt.hashSync("password", salt);
+  return this.bcrypt.hashSync(password, salt);
 }
 
 APICaller.prototype.getUserFromDatabase = function(id) {
@@ -24,6 +24,18 @@ APICaller.prototype.getUserFromDatabase = function(id) {
      return data;
    })
 };
+
+APICaller.prototype.tryLogin = function(email, password) {
+  all_users = this.jquery.get(this.rootURL, function(data) {
+    return data.filter(function(item) {
+      return item.email === email && item.password === password
+    })
+  })
+}
+// dd you give right user/pass
+//
+// authenticate user: check username and password
+// store current user:
 
 // Export node module.
 if (typeof module !== 'undefined' && module.hasOwnProperty('exports')) {
