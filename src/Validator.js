@@ -5,5 +5,4 @@ Validator.prototype.isValidEmail = function(userEmail) {
     return re.test(String(userEmail).toLowerCase());
   }
 
-
 module.exports = Validator;

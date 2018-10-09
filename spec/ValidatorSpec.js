@@ -1,21 +1,19 @@
-var validator = require("../public/javascripts/Validator.js");
-
-var assert = require("assert");
+var Validator = require("../src/Validator.js");
 
 describe("Validator", function() {
   var subject;
 
   beforeEach(function() {
-    subject = new validator;
+    subject = new Validator();
   });
 
   describe("#validatesEmail will", function() {
     it('returns false if email is not valid', function() {
-      assert.equal(subject.isValidEmail("FakeEmail"), false);
+      expect(subject.isValidEmail("FakeEmail")).toEqual(false);
     });
 
     it('returns true if email is valid', function() {
-      assert.equal(subject.isValidEmail("realemail@gmail.com"), true);
+      expect(subject.isValidEmail("realemail@gmail.com")).toEqual(true);
     })
   });
 });
