@@ -1,12 +1,12 @@
 var express = require('express');
 var mongoose = require('mongoose');
 var router = express.Router();
+
+// placeholder for when we were using a variable instead of db, delete when db implemented
 var users = []
 
 //require user to access database table
 var User = require('./database_user')
-
-
 
 // displays all entries in users
 router.get('/', function (req, res) {
@@ -16,7 +16,7 @@ router.get('/', function (req, res) {
   })
 });
 
-//temporary route to populate the database
+//temporary route to populate the database, delete
 router.get('/populate', function(req, res) {
   var dog = new User({ name: 'dog', email: "dog@dog.com", password: 'dog123' });
   var cat = new User({ name: 'cat', email: "cat@dog.com", password: 'cat123' });
