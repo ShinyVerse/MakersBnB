@@ -35,12 +35,16 @@ test('Posts individual users', function (t) {
   request(app)
     .post('/users')
     .send(newName)
-    .expect(201)
-    .expect('Content-Type', /json/)
-    .end(function (err, res) {
-      result = ['John', 'Betty', 'Hal', 'Billy']
+    .expect(302)
+    .end( function (err, res) {
       t.error(err, 'No error');
-      t.same(res.body, result, 'Users as expected');
-      t.end();
+        request(app)
+        .get('/users')
+        .end(function (err, res) {
+          result = ['John', 'Betty', 'Hal', 'Billy']
+          t.error(err, 'No error');
+          t.same(res.body, result, 'Users as expected');
+          t.end();
     });
+  });
 });
