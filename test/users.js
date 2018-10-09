@@ -5,6 +5,9 @@ let chaiHttp = require('chai-http');
 let server = require('../server');
 let should = chai.should();
 let expect = chai.expect;
+var mongoose = require('mongoose')
+var User = require('../server/database_user')
+
 
 chai.use(chaiHttp);
 
@@ -14,9 +17,40 @@ let user_details = {
 
 
 describe('Create Account, Login and Check Token', () => {
-  beforeEach((done) => {
+  let db = mongoose.connection;
+  let dog = new User({ name: 'dog', email: "dog@dog.com", password: 'dog123' });
+  let cat = new User({ name: 'cat', email: "cat@dog.com", password: 'cat123' });
+
+  before((done) => {
+    db.on('error', console.error.bind(console, 'connection error'));
+    db.once('open', function() {
+      console.log('connected!');
+    })
     console.log('Testing')
+    done()
+  })
+
+  after((done) => {
+    db.close()
+    done()
+  })
+
+  beforeEach((done) => {
+    dog.save();
+    cat.save();
     done();
+  });
+
+  describe('/GET users', () => {
+    it('displays all the current users', (done) => {
+      chai.request(server)
+      .get('/users')
+      .end((err, res) => {
+        res.should.have.status(200);
+        res.should.be.eql([dog, cat])
+        done();
+      });
+    });
   });
 
   describe('/POST users', () => {
@@ -32,18 +66,6 @@ describe('Create Account, Login and Check Token', () => {
               res.should.have.status(200);
               done();
             });
-        });
-    });
-  });
-
-  describe('/GET users', () => {
-    it('displays all the current users', (done) => {
-      chai.request(server)
-        .get('/users')
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.eql(['John', 'Betty', 'Hal', 'Billy'])
-          done();
         });
     });
   });
