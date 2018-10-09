@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "test": "jasmine",
+    "test": "mocha",
     "test_features": "node_modules/.bin/mocha",
-    "test_coverage": "nyc jasmine",
+    "test_coverage": "nyc mocha",
     "lint": "eslint"
   },
   "repository": {
