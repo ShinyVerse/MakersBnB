@@ -1,6 +1,10 @@
 var express = require('express');
+var mongoose = require('mongoose');
 var router = express.Router();
 var users = ['John', 'Betty', 'Hal'];
+
+
+
 
 
 router.get('/', function (req, res) {

@@ -1,9 +1,20 @@
-var express = require('express')
-var bodyParser = require('body-parser')
+var express = require('express');
+var bodyParser = require('body-parser');
+var mongoose = require('mongoose');
 
-var usersRouter = require('./users.js')
-var listingsRouter = require('./listings.js')
-var bookingsRouter = require('./bookings.js')
+mongoose.connect('mongodb://localhost/MakersBnB');
+
+var db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error'));
+db.once('open', function() {
+  console.log('connected!');
+})
+
+var usersRouter = require('./users.js');
+var listingsRouter = require('./listings.js');
+var bookingsRouter = require('./bookings.js');
+
+
 
 var app = express();
 
