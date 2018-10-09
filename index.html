@@ -1,11 +1,18 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="UTF-8">
+    <meta charset='UTF-8'>
     <title>title</title>
   </head>
   <body>
-    <script src='./public/javascripts/jquery.js'></script>
-    <script src="./public/javascripts/APICaller.js"></script>
+    <script src='./src/jquery.js'></script>
+    <script src='./src/APICaller.js'></script>
+    <script>
+      $(document).ready(function(){
+        var api = new APICaller('https://jsonplaceholder.typicode.com/todos/', jQuery, 'fes')
+        console.log(api)
+        console.log(api.getUserFromDatabase(2))
+      })
+    </script>
   </body>
 </html>

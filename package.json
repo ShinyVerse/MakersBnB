@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index",
-    "test": "mocha",
+    "test": "jasmine",
     "test_features": "node_modules/.bin/mocha",
     "test_coverage": "nyc mocha",
     "lint": "eslint"
@@ -26,6 +26,7 @@
   },
   "homepage": "https://github.com/ShinyVerse/MakersBnB#readme",
   "devDependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
