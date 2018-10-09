@@ -39,8 +39,13 @@
     "monk": "^6.0.6",
     "nodemon": "^1.18.4",
     "nyc": "^13.0.1",
+    "simple-mock": "0.8.0",
     "supertest": "^3.3.0",
     "tape": "^4.9.1"
+  },
+  "peerDependencies": {
+    "chai": "^4.0.0",
+    "simple-mock": "0.8.0"
   },
   "dependencies": {}
 }
