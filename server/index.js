@@ -7,7 +7,7 @@ var bookingsRouter = require('./bookings.js')
 
 var app = express();
 
-app.use(bodyParser())
+app.use(bodyParser.json())
 //
 // app.use(function(req, res, next) {
 //   req.db = db;
