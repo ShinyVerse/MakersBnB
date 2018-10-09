@@ -19,11 +19,23 @@ router.get('/:id', function (req, res) {
 });
 
 router.put('/:id', function(req, res) {
-  res.json(users);
+  if (users.length > req.params.id) {
+    users[req.params.id] = req.body.name;
+    res.status(202).send();
+  } else {
+    res.status(400).send()
+  }
+  res.redirect('/users')
 });
 
 router.delete('/:id', function(req, res) {
-
+  if (users.length > req.params.id) {
+    users.splice(req.params.id, 1);
+    res.status(202).send()
+  } else {
+    res.status(400).send()
+  }
+  res.redirect('/users')
 });
 
 module.exports = router;
