@@ -1,3 +1,5 @@
+var APIConnector = require('./APIConnector.js');
+
 function APICaller(rootURL, jquery, bcrypt) {
   this.rootURL = rootURL
   this.jquery = jquery;
@@ -19,9 +21,13 @@ APICaller.prototype.hashPassword = function (password){
 };
 
 APICaller.prototype.getUserFromDatabase = function(id) {
-  return new Promise((resolve, reject) => {
-    resolve(this.jquery.get(this.rootURL + id));
-  })
+   APIConnector.connect("get", `/users/ + ${id}`);
+
+
+
+  // return new Promise((resolve, reject) => {
+  //   resolve(this.jquery.get(this.rootURL + id));
+  // })
 };
 
 APICaller.prototype.queryUsers = function() {
