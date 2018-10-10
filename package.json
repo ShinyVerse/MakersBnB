@@ -45,9 +45,9 @@
     "supertest": "^3.3.0",
     "tape": "^4.9.1"
   },
-  "peerDependencies": {
+  "dependencies": {
+    "chai-json": "^1.0.0",
     "chai": "^4.0.0",
     "simple-mock": "0.8.0"
-  },
-  "dependencies": {}
+  }
 }

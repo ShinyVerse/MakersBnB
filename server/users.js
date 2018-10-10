@@ -12,6 +12,7 @@ var User = require('./database_user')
 router.get('/', function (req, res) {
   User.find((err, users) => {
     if (err) return res.status(500).send(err)
+
     return res.json(users);
   })
 });
@@ -27,7 +28,8 @@ router.get('/populate', function(req, res) {
 
 // create a new entry in db
 router.post('/', function (req, res) {
-  users.push(req.body.name)
+  console.log(req.body)
+  
   res.status(201).send()
   // return res.status(201).json('user created');
   res.redirect('/users')
