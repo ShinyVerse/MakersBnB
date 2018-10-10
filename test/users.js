@@ -20,7 +20,6 @@ let user_details = {
 describe('Create Account, Login and Check Token', () => {
   let db = mongoose.connection;
   let dog = new User({ name: 'dog', email: "dog@dog.com", password: 'dog123' });
-  let cat = new User({ name: 'cat', email: "cat@dog.com", password: 'cat123' });
 
   before((done) => {
     db.on('error', console.error.bind(console, 'connection error'));
@@ -36,11 +35,10 @@ describe('Create Account, Login and Check Token', () => {
     done()
   })
 
-  // beforeEach((done) => {
-  //   dog.save();
-  //   cat.save();
-  //   done();
-  // });
+  beforeEach((done) => {
+    dog.save();
+    done();
+  });
 
   afterEach((done) => {
     User.deleteMany({}, function(err) {});
@@ -49,8 +47,6 @@ describe('Create Account, Login and Check Token', () => {
 
   describe('/GET users', () => {
     it('displays all the current users', (done) => {
-      dog.save();
-      cat.save();
       chai.request(server)
       .get('/users')
       .end((err, res) => {
