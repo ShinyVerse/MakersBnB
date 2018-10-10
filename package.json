@@ -4,10 +4,11 @@
   "description": "Javascript/Ruby clone of AirBnB",
   "main": "index.js",
   "scripts": {
-    "start": "node index",
+    "start_api": "node api",
     "test": "jasmine",
     "test_features": "node_modules/.bin/mocha",
-    "test_coverage": "nyc mocha",
+    "test_api": "node_modules/.bin/mocha",
+    "test_coverage": "nyc jasmine",
     "lint": "eslint"
   },
   "repository": {
