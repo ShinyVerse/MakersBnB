@@ -1,29 +1,12 @@
 var mongoose = require('mongoose');
-
-const userSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  password: String
-});
-
-const listingSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  password: String
-});
-
-const bookingSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  password: String
-});
-
+var userSchema = require('./schemas/users')
 
 function Connection(mongoose, schemas) {
   this.mongoose = mongoose;
   this.schemas = schemas; // looks like [{name:'user', schema:schema], ['listings', listingSchema]]
   this.models = {};
   this.compileSchemas();
+  this.connect();
 }
 
 Connection.prototype.compileSchemas = function() {
@@ -35,9 +18,9 @@ Connection.prototype.compileSchemas = function() {
 
 Connection.prototype.connect = function() {
   if (process.env.NODE_ENV === "test") {
-    this.mongoose.connect('mongodb://localhost/MakersBnB_test');
+    this.mongoose.connect('mongodb://localhost/MakersBnB_test', { useNewUrlParser: true });
   } else {
-    this.mongoose.connect('mongodb://localhost/MakersBnB');
+    this.mongoose.connect('mongodb://localhost/MakersBnB', { useNewUrlParser: true });
   }
 }
 
@@ -48,32 +31,45 @@ Connection.prototype.disconnect = function() {
 }
 
 Connection.prototype.create = function(modelName, data) {
-  let newDocument = new modelName(data);
-  this.connect();
-  newDocument.save();
-  this.disconnect();
+  const model = this.models[modelName]
+  const newDocument = new model(data);
+  newDocument.save((err) => {
+    if (err) {
+      console.log('Error occurred')
+    }
+  });
 }
 
-Connection.prototype.read = function(model, data) {
-  this.connect();
-  model.find((err, users) => {
-        return users;
+Connection.prototype.read = function(modelName, data = {}) {
+  const model = this.models[modelName]
+  model.find(data, (err, users) => {
+    if (err) {
+      console.log('Error occurred');
+    } else {
+      console.log(users);
+    }
   })
-  this.disconnect();
 }
 
-Connection.prototype.update = function(model, data) {
-
+Connection.prototype.update = function(modelName, id, data) {
+  const model = this.models[modelName]
+  model.findOneAndUpdate({_id: id}, data, {new: true}, (err, res) => {
+    if (err) {
+      console.log('Error occurred')
+    } else {
+      return res;
+    }
+  })
 }
 
-Connection.prototype.delete = function(model, data) {
-
+Connection.prototype.delete = function(modelName, id) {
+  const model = this.models[modelName]
+  model.findOneAndDelete({_id: id}, (err, res) => {})
 }
 
-let conn = new Connection(mongoose, [{ 'name': 'Users', 'schema': userSchema }])
+const conn = new Connection(mongoose, [{name: 'Users', schema: userSchema}])
 
-
-conn.create('Users', { 'name': 'Billy', 'email': 'billy@mail.co.uk', 'password': 'whofiew'})
+conn.read('Users')
 
 
 module.exports = Connection;

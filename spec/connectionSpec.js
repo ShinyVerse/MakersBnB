@@ -26,5 +26,9 @@ describe('Connection', function() {
     expect(mockMongoose.connection.close).toHaveBeenCalled;
   })
 
+  it('can create a new entry in a database', function() {
+    subject.create('mockSchema', )
+  })
+
 
 })
