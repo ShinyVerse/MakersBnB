@@ -28,12 +28,6 @@ var bookingsRouter = require('./bookings.js');
 // tells body parser to use JSON encoding?
 app.use(bodyParser.json())
 
-// we might not need this, it was used for monk, saves db into req.db hash for every request
-app.use(function(req, res, next) {
-  req.db = db;
-  next()
-})
-
 // sets the urls for each routers
 app.use('/users', usersRouter);
 app.use('/listings', listingsRouter);
