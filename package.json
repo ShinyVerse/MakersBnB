@@ -6,6 +6,7 @@
   "scripts": {
     "start_api": "node api",
     "test": "jasmine",
+    "test_features": "node_modules/.bin/mocha",
     "test_api": "node_modules/.bin/mocha",
     "test_coverage": "nyc jasmine",
     "lint": "eslint"
@@ -26,6 +27,7 @@
   },
   "homepage": "https://github.com/ShinyVerse/MakersBnB#readme",
   "devDependencies": {
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "chai": "^4.2.0",
     "chai-http": "^4.2.0",
@@ -39,10 +41,13 @@
     "monk": "^6.0.6",
     "nodemon": "^1.18.4",
     "nyc": "^13.0.1",
+    "simple-mock": "0.8.0",
     "supertest": "^3.3.0",
     "tape": "^4.9.1"
   },
   "dependencies": {
-    "chai-json": "^1.0.0"
+    "chai-json": "^1.0.0",
+    "chai": "^4.0.0",
+    "simple-mock": "0.8.0"
   }
 }
