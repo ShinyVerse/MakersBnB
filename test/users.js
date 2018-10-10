@@ -66,7 +66,6 @@ describe('Create Account, Login and Check Token', () => {
         .get('/users')
         .end((err, res) => {
           res.should.have.status(200);
-          console.log(res.body)
           res.body[0].name.should.be.eql('Billy');
           done();
         });
