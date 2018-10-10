@@ -43,7 +43,7 @@ describe("APICaller", function(){
   describe('#getUserFromDatabase', function(){
     it("returns a user from the database", function(){
       subject.getUserFromDatabase(0);
-      expect(mockjQuery.get).toHaveBeenCalledWith(subject.rootURL + '0', jasmine.any(Function));
+      expect(mockjQuery.get).toHaveBeenCalledWith(subject.rootURL + '0');
     });
   });
 
