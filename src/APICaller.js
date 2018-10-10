@@ -4,7 +4,7 @@ function APICaller(rootURL, jquery, bcrypt, apiConnector) {
   this.rootURL = rootURL
   this.jquery = jquery;
   this.bcrypt = bcrypt;
-  this.apiConnector = new APIConnector(jquery, rootURL)
+  this.apiConnector = apiConnector
 };
 
 APICaller.prototype.sendNewUser = function(name, email, password) {
@@ -26,10 +26,10 @@ APICaller.prototype.getUserFromDatabase = function(id) {
 };
 
 APICaller.prototype.queryUsers = function() {
-  // this.apiConnector.connect("get", '/users')
-  return new Promise((resolve, reject) => {
-    resolve(this.jquery.get(this.rootURL));
-  })
+  this.apiConnector.connect("get", '/users')
+  // return new Promise((resolve, reject) => {
+  //   resolve(this.jquery.get(this.rootURL));
+  // })
 };
 
 

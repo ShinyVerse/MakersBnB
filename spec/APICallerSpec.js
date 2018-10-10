@@ -3,9 +3,10 @@ var APICaller = require("../src/APICaller.js");
 describe("APICaller", function(){
   var subject;
   const testURL = 'http://98fa80dc.ngrok.io'
+  var mockAPIConnector
 
   beforeEach(function(){
-    mockAPIConnector = jasmine.createSpyObj('mockApiConnect', { 'connect': "ok"})
+    mockAPIConnector = jasmine.createSpyObj('mockApiConnector', { 'connect': "ok"})
     mockjQuery = jasmine.createSpyObj('mockjQuery', { 'post': 202, 'get':
       [ { email: 'betty@mail.co.uk', password: 'hfowepfmoamopaivgnpeanpv'} ] });
     mockBcrypt = jasmine.createSpyObj('mockBcrypt', {'genSaltSync': 10, 'hashSync': 'fewiofjweio'});
@@ -15,7 +16,7 @@ describe("APICaller", function(){
   describe('#getUserFromDatabase', function() {
     it('returns a specific user based on id', function() {
       subject.getUserFromDatabase(0)
-      expect(mockAPIConnector.connect).toHaveBeenCalledWith("get", "/users/0")
+      expect(mockAPIConnector.connect).toHaveBeenCalledWith('get', '/users/0')
     })
   })
 
@@ -30,22 +31,22 @@ describe("APICaller", function(){
   describe("#sendNewUser", function(){
     it("sends a new user to the API", function(){
       subject.sendNewUser('Billy', 'billy@mail.co.uk', 'fewiofjweio')
-      expected_request = {
-        url: testURL + "/users",
-        name: 'Billy',
-        email: 'billy@mail.co.uk',
-        password: 'fewiofjweio'
-      }
-      expect(mockjQuery.post).toHaveBeenCalledWith(expected_request);
+      expect(mockAPIConnector.connect).toHaveBeenCalledWith('post', '/users',
+      {name: 'Billy',
+      email: 'billy@mail.co.uk',
+      password: 'fewiofjweio' });
+      //find a way to refactor??
     });
   });
 
-  describe('#getUserFromDatabase', function(){
-    it("returns a user from the database", function(){
-      subject.getUserFromDatabase(0);
-      expect(mockjQuery.get).toHaveBeenCalledWith(subject.rootURL + '/users/0');
+  describe('#queryUsers', function(){
+    it("returns all users from db", function(){
+      subject.queryUsers();
+      expect(mockAPIConnector.connect).toHaveBeenCalledWith('get', '/users');
     });
   });
+
+  // find a way to stub query users for the rest of the tests
 
   describe('#isLoginCorrect', function() {
     it('checks a given username and password against the database', function() {
