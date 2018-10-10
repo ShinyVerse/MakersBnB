@@ -13,7 +13,9 @@ chai.use(chaiHttp);
 chai.use(require('chai-json'));
 
 let user_details = {
-  'name': 'Billy'
+  name: 'Billy',
+  email: 'billy@email.com',
+  password: 'billy123'
 };
 
 
@@ -52,31 +54,32 @@ describe('Create Account, Login and Check Token', () => {
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a.jsonObj()
-        console.log(res.body)
         res.body[0].name.should.be.eql("dog");
         done();
+      });
+    });
+  });
+
+  describe('/POST users', () => {
+    it('it should add a new user', (done) => {
+      chai.request(server)
+      .post('/users')
+      .send(user_details)
+      .end((err, res) => {
+        res.should.have.status(201);
+        chai.request(server)
+        .get('/users')
+        .end((err, res) => {
+          res.should.have.status(200);
+          res.body[0].name.should.be.eql('Billy');
+          done();
+        });
       });
     });
   });
 });
 
 
-// describe('/POST users', () => {
-//   it('it should add a new user', (done) => {
-//     chai.request(server)
-//       .post('/users')
-//       .send(user_details)
-//       .end((err, res) => {
-//         res.should.have.status(201);
-//         chai.request(server)
-//           .get('/users')
-//           .end((err, res) => {
-//             res.should.have.status(200);
-//             done();
-//           });
-//       });
-//   });
-// });
 //
 // describe('/GET users/id', () => {
 //   it('displays the user with the given id', (done) => {
