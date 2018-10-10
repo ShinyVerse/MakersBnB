@@ -1,5 +1,5 @@
-function APIConnector(jquery, rootURL) {
-  this.jquery = jquery;
+function APIConnector (jquery, rootURL) {
+  this.jquery = jquery
   this.rootURL = rootURL
 }
 

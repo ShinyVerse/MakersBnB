@@ -1,39 +1,41 @@
 var APIConnector = require('./APIConnector.js');
 
-function APICaller(rootURL, jquery, bcrypt) {
+function APICaller(rootURL, jquery, bcrypt, apiConnector) {
   this.rootURL = rootURL
   this.jquery = jquery;
   this.bcrypt = bcrypt;
+  this.apiConnector = new APIConnector(jquery, rootURL)
 };
 
 APICaller.prototype.sendNewUser = function(name, email, password) {
-  this.jquery.post({
-    url: this.rootURL,
-    name: name,
-    email: email,
-    password: this.hashPassword(password)
-  });
-};
-
-APICaller.prototype.hashPassword = function (password){
-  const salt = this.bcrypt.genSaltSync(10);
-  return this.bcrypt.hashSync(password, salt);
+  this.apiConnector.connect('post', '/users', {name: name, email: email,
+  password: this.hashPassword(password)})
+  // this.jquery.post({
+  //   url: this.rootURL,
+  //   name: name,
+  //   email: email,
+  //   password: this.hashPassword(password)
+  // });
 };
 
 APICaller.prototype.getUserFromDatabase = function(id) {
-   APIConnector.connect("get", `/users/ + ${id}`);
-
-
-
+  this.apiConnector.connect("get", '/users' + `/${id}`);
   // return new Promise((resolve, reject) => {
   //   resolve(this.jquery.get(this.rootURL + id));
   // })
 };
 
 APICaller.prototype.queryUsers = function() {
+  // this.apiConnector.connect("get", '/users')
   return new Promise((resolve, reject) => {
     resolve(this.jquery.get(this.rootURL));
   })
+};
+
+
+APICaller.prototype.hashPassword = function (password){
+  const salt = this.bcrypt.genSaltSync(10);
+  return this.bcrypt.hashSync(password, salt);
 };
 
 APICaller.prototype.isLoginCorrect = function(email, password) {
@@ -69,8 +71,6 @@ APICaller.prototype.trySignUp = function(name, email, password) {
     return false;
   })
 }
-
-
 // dd you give right user/pass
 //
 // authenticate user: check username and password

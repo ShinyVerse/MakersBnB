@@ -2,20 +2,20 @@ var APICaller = require("../src/APICaller.js");
 
 describe("APICaller", function(){
   var subject;
-  const testURL = ' http://98fa80dc.ngrok.io/users/'
+  const testURL = 'http://98fa80dc.ngrok.io'
 
   beforeEach(function(){
+    mockAPIConnector = jasmine.createSpyObj('mockApiConnect', { 'connect': "ok"})
     mockjQuery = jasmine.createSpyObj('mockjQuery', { 'post': 202, 'get':
       [ { email: 'betty@mail.co.uk', password: 'hfowepfmoamopaivgnpeanpv'} ] });
     mockBcrypt = jasmine.createSpyObj('mockBcrypt', {'genSaltSync': 10, 'hashSync': 'fewiofjweio'});
-    subject = new APICaller(testURL, mockjQuery, mockBcrypt);
+    subject = new APICaller(testURL, mockjQuery, mockBcrypt, mockAPIConnector);
   });
 
   describe('#getUserFromDatabase', function() {
     it('returns a specific user based on id', function() {
-      subject.getUserFromDatabase(0).then(function(res) {
-        expect(res).toEqual([ { email: 'betty@mail.co.uk', password: 'hfowepfmoamopaivgnpeanpv'} ])
-      })
+      subject.getUserFromDatabase(0)
+      expect(mockAPIConnector.connect).toHaveBeenCalledWith("get", "/users/0")
     })
   })
 
@@ -31,7 +31,7 @@ describe("APICaller", function(){
     it("sends a new user to the API", function(){
       subject.sendNewUser('Billy', 'billy@mail.co.uk', 'fewiofjweio')
       expected_request = {
-        url: testURL,
+        url: testURL + "/users",
         name: 'Billy',
         email: 'billy@mail.co.uk',
         password: 'fewiofjweio'
@@ -43,7 +43,7 @@ describe("APICaller", function(){
   describe('#getUserFromDatabase', function(){
     it("returns a user from the database", function(){
       subject.getUserFromDatabase(0);
-      expect(mockjQuery.get).toHaveBeenCalledWith(subject.rootURL + '0');
+      expect(mockjQuery.get).toHaveBeenCalledWith(subject.rootURL + '/users/0');
     });
   });
 
