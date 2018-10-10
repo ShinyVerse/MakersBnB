@@ -28,7 +28,8 @@ router.get('/populate', function(req, res) {
 
 // create a new entry in db
 router.post('/', function (req, res) {
-  users.push(req.body.name)
+  console.log(req.body)
+  
   res.status(201).send()
   // return res.status(201).json('user created');
   res.redirect('/users')
