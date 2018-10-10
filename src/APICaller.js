@@ -25,13 +25,24 @@ APICaller.prototype.getUserFromDatabase = function(id) {
    })
 };
 
-APICaller.prototype.tryLogin = function(email, password) {
-  all_users = this.jquery.get(this.rootURL, function(data) {
-    return data.filter(function(item) {
-      return item.email === email && item.password === password
-    })
+APICaller.prototype.queryUsers = function() {
+  return new Promise( (resolve, reject) => {
+    resolve(this.jquery.get(this.rootURL));
   })
 }
+
+APICaller.prototype.tryLogin = function(email, password) {
+  let allUsers = this.queryUsers()
+  return output = allUsers.then(function(res) {
+    for (i = 0; i < res.length; i += 1) {
+      if (res[i].email === email && res[i].password === password) {
+        return true
+      }
+    }
+    return false
+  })
+}
+
 // dd you give right user/pass
 //
 // authenticate user: check username and password

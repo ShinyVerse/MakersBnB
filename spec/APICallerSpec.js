@@ -2,10 +2,11 @@ var APICaller = require("../src/APICaller.js");
 
 describe("APICaller", function(){
   var subject;
-  const testURL = 'https://jsonplaceholder.typicode.com/todos/'
+  const testURL = ' http://98fa80dc.ngrok.io/users/'
 
   beforeEach(function(){
-    mockjQuery = jasmine.createSpyObj('mockjQuery', { 'post': 202, 'get': 200 });
+    mockjQuery = jasmine.createSpyObj('mockjQuery', { 'post': 202, 'get':
+      [ { email: 'betty@mail.co.uk', password: 'hfowepfmoamopaivgnpeanpv'} ] });
     mockBcrypt = jasmine.createSpyObj('mockBcrypt', {'genSaltSync': 10, 'hashSync': 'fewiofjweio'});
     subject = new APICaller(testURL, mockjQuery, mockBcrypt);
   });
@@ -40,10 +41,14 @@ describe("APICaller", function(){
 
   describe('#tryLogin', function() {
     it('checks a given username and password against the database', function() {
-      expect(subject.tryLogin('Billy', 'billy01')).toEqual(true);
+      subject.tryLogin('betty@mail.co.uk', 'hfowepfmoamopaivgnpeanpv').then(function(res) {
+        expect(res).toEqual(true);
+      })
     });
     it('does not allow the user to log in with incorrect details', function() {
-      expect(subject.tryLogin('Billy', 'billy02')).toEqual(false);
+      subject.tryLogin('betty@mail.co.uk', 'notthepassword').then(function(res) {
+        expect(res).toEqual(false);
+      })
     });
   });
 });
