@@ -12,6 +12,7 @@ var User = require('./database_user')
 router.get('/', function (req, res) {
   User.find((err, users) => {
     if (err) return res.status(500).send(err)
+
     return res.json(users);
   })
 });
