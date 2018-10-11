@@ -7,8 +7,6 @@ describe("UserHandler", function(){
 
   beforeEach(function(){
     mockAPIConnector = jasmine.createSpyObj('mockApiConnector', { 'connect': "ok"})
-    mockjQuery = jasmine.createSpyObj('mockjQuery', { 'post': 202, 'get':
-      [ { email: 'betty@mail.co.uk', password: 'hfowepfmoamopaivgnpeanpv'} ] });
     mockBcrypt = jasmine.createSpyObj('mockBcrypt', {'genSaltSync': 10, 'hashSync': 'fewiofjweio'});
     subject = new UserHandler(mockBcrypt, mockAPIConnector);
   });
