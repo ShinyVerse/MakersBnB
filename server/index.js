@@ -1,6 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
+var cors = require('cors');
 // var db_model = require('./database_user')
 var app = express();
 
@@ -18,7 +19,7 @@ var bookingsRouter = require('./bookings.js');
 
 // tells body parser to use JSON encoding?
 app.use(bodyParser.json())
-
+app.use(cors)
 // sets the urls for each routers
 app.use('/users', usersRouter);
 app.use('/listings', listingsRouter);
