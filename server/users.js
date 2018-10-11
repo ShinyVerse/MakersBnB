@@ -2,58 +2,52 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose')
 
+const domain = 'users'
+
 //require dbConnection to access database table
 var Connection = require('../src/connection.js')
-var userSchema = require('../src/schemas/users.js')
+var domainSchema = require('../src/schemas/' + domain + '.js')
 
-process.env.NODE_ENV === "development"
-let userConn = new Connection(mongoose, [{ name: 'Users', schema: userSchema }])
+let domainConn = new Connection(mongoose, [{ name: domain, schema: domainSchema }])
 
 // displays all entries in users
 router.get('/', function (req, res) {
-    userConn.read('Users').exec( (err, users) => {
-      if (err) {
-        console.log(err)
-      } else {
-        res.send(users)
-      }
-    })
+  domainConn.read(domain).exec( (err, output) => {
+    if (err) {
+      res.redirect('/')
+    } else {
+      res.send(output)
+    }
+  })
 })
-
 
 // create a new entry in db
 router.post('/', function (req, res) {
-  console.log(req.body)
-
-  res.status(201).send()
-  res.redirect('/users')
+  domainConn.create(domain, req.body)
+  res.redirect('/' + domain)
 });
 
 // displays individual entry
 router.get('/:id', function (req, res) {
-  res.json(users[req.params.id]);
+  domainConn.read(domain, { _id: req.params.id }).exec( (err, output) => {
+    if (err) {
+      res.redirect('/')
+    } else {
+      res.send(output)
+    }
+  })
 });
 
 // updates individual entry
 router.put('/:id', function(req, res) {
-  if (users.length > req.params.id) {
-    users[req.params.id] = req.body.name;
-    res.status(202).send();
-  } else {
-    res.status(400).send()
-  }
-  res.redirect('/users')
+  domainConn.update(domain, req.params.id, req.body)
+  res.redirect('/' + domain)
 });
 
 // deletes an individual entry
 router.delete('/:id', function(req, res) {
-  if (users.length > req.params.id) {
-    users.splice(req.params.id, 1);
-    res.status(202).send()
-  } else {
-    res.status(400).send()
-  }
-  res.redirect('/users')
+  domainConn.delete(domain, req.params.id)
+  res.redirect('/' + domain)
 });
 
 module.exports = router;

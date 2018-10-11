@@ -50,8 +50,6 @@ Connection.prototype.update = function(modelName, id, data) {
   model.findOneAndUpdate({_id: id}, data, {new: true}, (err, res) => {
     if (err) {
       console.log('Error occurred')
-    } else {
-      return res;
     }
   })
 }
