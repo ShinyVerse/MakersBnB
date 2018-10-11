@@ -6,10 +6,13 @@
   </head>
   <body>
     <script src='./src/jquery.js'></script>
-    <script src='./src/APICaller.js'></script>
+    <script src='./src/APIConnector.js'></script>
+    <script src='./src/UserHandler.js'></script>
+    <script src='./src/ListingHandler.js'></script>
     <script>
       $(document).ready(function(){
-        var api = new APICaller('http://8dcb8cda.ngrok.io/', jQuery, 'fes')
+        var connector = new APIConnector('http://8dcb8cda.ngrok.io/', jQuery,)
+        var api = new UserHandler('fes', connector)
         console.log(api)
         // console.log(api.getUserFromDatabase(2))
       })
