@@ -1,4 +1,4 @@
-let rootURL = 'http://fdc4245f.ngrok.io'
+let rootURL = 'http://4aa3e290.ngrok.io'
 
 let apiCon = new APIConnector(jQuery, rootURL)
 let useHan = new UserHandler(apiCon)
@@ -17,6 +17,13 @@ $(document).ready(function() {
     $('#signUpBox').hide()
     $('#signIn').hide()
     $('#signUp').show()
+  })
+
+  $('#signUpSubmit').click(function() {
+    let name = $('#signUpName').val()
+    let email = $('#signUpEmail').val()
+    let password = $('#signUpPassword').val()
+    useHan.sendNewUser(name, email, password)
   })
 
   $('#signInSubmit').click(function() {
