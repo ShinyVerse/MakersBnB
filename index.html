@@ -1,21 +1,28 @@
-<!DOCTYPE html>
-<html>
-  <head>
-    <meta charset='UTF-8'>
-    <title>title</title>
-  </head>
-  <body>
-    <script src='./src/jquery.js'></script>
-    <script src='./src/APIConnector.js'></script>
-    <script src='./src/UserHandler.js'></script>
-    <script src='./src/ListingHandler.js'></script>
-    <script>
-      $(document).ready(function(){
-        var connector = new APIConnector('http://8dcb8cda.ngrok.io/', jQuery,)
-        var api = new UserHandler('fes', connector)
-        console.log(api)
-        // console.log(api.getUserFromDatabase(2))
-      })
-    </script>
-  </body>
-</html>
+<head>
+  <meta charset='UTF-8'>
+  <title>title</title>
+</head>
+<body>
+  <h1> MakersBnB </h1>
+  <button id='signUp'>Sign Up</button>
+  <button id='signIn'>Sign In</button>
+
+  <div id='signUpBox' hidden>
+    <h2> Sign up to MakersBnB </h2>
+    Name: <input id='signUpName' type='text'/><br>
+    E-Mail: <input id='signUpEmail' type='text'/><br>
+    Password: <input id='signUpPassword' type='password'/><br>
+    <button id ='signUpSubmit'>Submit</button><br>
+  </div>
+  <div id='signInBox' hidden>
+    <h2> Sign in to MakersBnB </h2>
+    E-Mail: <input id='signInEmail' type='text'/><br>
+    Password: <input id='signInPassword' type='password'/><br>
+    <button id ='signInSubmit'>Submit</button><br>
+  </div>
+  <script src='./src/jquery.js'></script>
+  <script src='./src/APIConnector.js'></script>
+  <script src='./src/UserHandler.js'></script>
+  <script src='interface.js'></script>
+</body>
+

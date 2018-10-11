@@ -18,4 +18,6 @@ APIConnector.prototype.connect = function(action, path, params = false) {
   }
 }
 
-module.exports = APIConnector;
+if (typeof module !== 'undefined' && module.hasOwnProperty('exports')) {
+  module.exports = APIConnector;
+};
