@@ -1,26 +1,25 @@
 var express = require('express');
 var router = express.Router();
+var mongoose = require('mongoose')
 
 //require dbConnection to access database table
-var db_connection = require('./dbConnection')
+var Connection = require('../src/connection.js')
+var userSchema = require('../src/schemas/users.js')
+
+process.env.NODE_ENV === "development"
+let userConn = new Connection(mongoose, [{ name: 'Users', schema: userSchema }])
 
 // displays all entries in users
 router.get('/', function (req, res) {
-  User.find((err, users) => {
-    if (err) return res.status(500).send(err)
+    userConn.read('Users').exec( (err, users) => {
+      if (err) {
+        console.log(err)
+      } else {
+        res.send(users)
+      }
+    })
+})
 
-    return res.json(users);
-  })
-});
-
-//temporary route to populate the database, delete
-// router.get('/populate', function(req, res) {
-//   var dog = new User({ name: 'dog', email: "dog@dog.com", password: 'dog123' });
-//   var cat = new User({ name: 'cat', email: "cat@dog.com", password: 'cat123' });
-//   dog.save();
-//   cat.save();
-//   res.redirect('/users')
-// })
 
 // create a new entry in db
 router.post('/', function (req, res) {

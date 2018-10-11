@@ -1,4 +1,5 @@
 process.env.NODE_ENV = 'test';
+var mongoose = require('mongoose')
 
 var Connection = require("../src/connection.js");
 
@@ -13,11 +14,10 @@ describe('Connection', function() {
 
   it('Connects to a database', function() {
     subject.connect()
-    expect(mockMongoose.connect).toHaveBeenCalledWith('mongodb://localhost/MakersBnB_test')
+    expect(mockMongoose.connect).toHaveBeenCalledWith('mongodb://localhost/MakersBnB_test', { useNewUrlParser: true })
   })
 
   it('can disconnect from a database', function() {
-    subject.connect();
     mockMongoose.connection = { 'readyState': 1 }
     mockMongoose.connection.close = function() {
       return true
@@ -27,8 +27,28 @@ describe('Connection', function() {
   })
 
   it('can create a new entry in a database', function() {
-    subject.create('mockSchema', )
+    mockUsableSchema = new mongoose.Schema({
+      name: String
+    })
+    mockModel = mongoose.model('mockModel', mockUsableSchema)
+    subject.models['mockSchema'] = mockModel
+    subject.create('mockSchema', {'name': 'Billy'})
   })
 
+  it('can read elements of the database', function() {
+
+  })
+
+  it('can read an individual element of the database', function() {
+
+  })
+
+  it('can updaate elements of the database', function() {
+
+  })
+
+  it('can delete an element of the database', function() {
+    
+  })
 
 })

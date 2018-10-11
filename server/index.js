@@ -1,7 +1,7 @@
 var express = require('express');
 var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
-var db_model = require('./database_user')
+// var db_model = require('./database_user')
 var app = express();
 
 //connects to database and posts confirmation on console

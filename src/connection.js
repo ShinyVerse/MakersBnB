@@ -42,13 +42,7 @@ Connection.prototype.create = function(modelName, data) {
 
 Connection.prototype.read = function(modelName, data = {}) {
   const model = this.models[modelName]
-  model.find(data, (err, users) => {
-    if (err) {
-      console.log('Error occurred');
-    } else {
-      console.log(users);
-    }
-  })
+  return model.find(data)
 }
 
 Connection.prototype.update = function(modelName, id, data) {
@@ -66,10 +60,5 @@ Connection.prototype.delete = function(modelName, id) {
   const model = this.models[modelName]
   model.findOneAndDelete({_id: id}, (err, res) => {})
 }
-
-const conn = new Connection(mongoose, [{name: 'Users', schema: userSchema}])
-
-conn.read('Users')
-
 
 module.exports = Connection;
