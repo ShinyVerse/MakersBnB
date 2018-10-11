@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var mongoose = require('mongoose')
 
+
 const domain = 'users'
 
 //require dbConnection to access database table
@@ -23,6 +24,7 @@ router.get('/', function (req, res) {
 
 // create a new entry in db
 router.post('/', function (req, res) {
+  console.log(req.body, req.params)
   domainConn.create(domain, req.body)
   res.redirect('/' + domain)
 });
