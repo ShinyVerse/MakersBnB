@@ -12,6 +12,11 @@ ListingHandler.prototype.queryListings = function () {
   this.apiConnector.connect('get', '/listings')
 }
 
+ListingHandler.prototype.queryOwnListings = function(owner_id) {
+  var listings = this.queryListings();
+  return listings.filter( listing => { return listing["owner_id"] === owner_id });
+}
+
 if (typeof module !== 'undefined' && module.hasOwnProperty('exports')) {
   module.exports = ListingHandler;
 };

@@ -1,0 +1,22 @@
+{
+  "Listings": [
+      {
+        "id": 1,
+        "address": "66 Joey Lane",
+        "owner_id": "1a",
+        "no_beds": 4
+      },
+      {
+        "id": 2,
+        "address": "4 Phoebe Avenue",
+        "owner_id": "2a",
+        "no_beds": 1
+      },
+      {
+        "id": 3,
+        "address": "54 Chandler's Place (Joey owns)",
+        "owner_id": "1a",
+        "no_beds": 4
+      }
+    ]
+  }
