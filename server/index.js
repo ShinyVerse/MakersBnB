@@ -1,4 +1,5 @@
 var express = require('express');
+var cors = require('cors');
 var app = express();
 var bodyParser = require('body-parser');
 
@@ -8,6 +9,10 @@ app.use(bodyParser.json())
 var usersRouter = require('./users.js');
 app.use('/users', usersRouter);
 
+
+app.use(cors)
+// sets the urls for each routers
+
 if (process.env.NODE_ENV !== 'test') {
   var listingsRouter = require('./listings.js');
   var bookingsRouter = require('./bookings.js');
@@ -16,7 +21,5 @@ if (process.env.NODE_ENV !== 'test') {
   app.use('/listings', listingsRouter);
   app.use('/bookings', bookingsRouter);
 }
-
-// tells body parser to use JSON encoding
 
 module.exports = app;
