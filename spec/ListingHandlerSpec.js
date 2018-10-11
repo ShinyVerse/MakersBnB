@@ -32,10 +32,8 @@ describe("ListingHandler", function(){
 
   describe('#queryOwnListings', function() {
     it('returns listings for the logged in user', function() {
-      console.log(promisedData);
       spyOn(subject, 'queryListings').and.returnValue(promisedData["Listings"]);
       expect(subject.queryListings).toHaveBeenCalled
-
       expect(subject.queryOwnListings("1a")).toEqual([{ "id": 1,"address": "66 Joey Lane",
                                                         "owner_id": "1a", "no_beds": 4 },
                                                         { "id": 3, "address": "54 Chandler's Place (Joey owns)",
