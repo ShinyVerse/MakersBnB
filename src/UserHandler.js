@@ -1,6 +1,6 @@
 var APIConnector = require('./APIConnector.js');
 
-function UserHandler(bcrypt, apiConnector) {
+function UserHandler(bcrypt, apiConnector ) {
   this.bcrypt = bcrypt;
   this.apiConnector = apiConnector
 };

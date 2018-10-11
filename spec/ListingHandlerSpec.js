@@ -19,4 +19,12 @@ describe("ListingHandler", function(){
       no_beds: '2' });
     });
   });
+
+  describe('#queryListings', function() {
+    it('queries all current available listings', function() {
+      subject.queryListings();
+      expect(mockAPIConnector.connect).toHaveBeenCalledWith('get', '/listings');
+    })
+  })
+
 });
