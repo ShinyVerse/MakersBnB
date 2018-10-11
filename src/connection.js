@@ -18,9 +18,11 @@ Connection.prototype.compileSchemas = function() {
 
 Connection.prototype.connect = function() {
   if (process.env.NODE_ENV === "test") {
-    this.mongoose.connect('mongodb://localhost/MakersBnB_test', { useNewUrlParser: true });
+    this.mongoose.connect('mongodb://localhost/MakersBnB_test', { useNewUrlParser: true })
+    console.log('connected to test database');
   } else {
-    this.mongoose.connect('mongodb://localhost/MakersBnB', { useNewUrlParser: true });
+    this.mongoose.connect('mongodb://localhost/MakersBnB', { useNewUrlParser: true })
+    console.log('connected to production database');
   }
 }
 
@@ -50,8 +52,6 @@ Connection.prototype.update = function(modelName, id, data) {
   model.findOneAndUpdate({_id: id}, data, {new: true}, (err, res) => {
     if (err) {
       console.log('Error occurred')
-    } else {
-      return res;
     }
   })
 }

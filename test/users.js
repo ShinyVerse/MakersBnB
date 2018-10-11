@@ -6,31 +6,25 @@ let server = require('../server');
 let should = chai.should();
 let expect = chai.expect;
 var mongoose = require('mongoose')
-var User = require('../server/database_user')
-
-
+let userSchema = require('../src/schemas/users')
+let userModel = mongoose.model('users', userSchema)
 chai.use(chaiHttp);
 chai.use(require('chai-json'));
 
-let user_details = {
+let userDetails = {
   name: 'Billy',
   email: 'billy@email.com',
   password: 'billy123'
 };
 
+let postDetails = {
+  name: 'James',
+  email: 'james@email.com',
+  password: 'james123'
+};
 
 describe('Create Account, Login and Check Token', () => {
   let db = mongoose.connection;
-  let dog = new User({ name: 'dog', email: "dog@dog.com", password: 'dog123' });
-
-  before((done) => {
-    db.on('error', console.error.bind(console, 'connection error'));
-    db.once('open', function() {
-      console.log('connected!');
-    })
-    console.log('Testing')
-    done()
-  })
 
   after((done) => {
     db.close()
@@ -38,12 +32,13 @@ describe('Create Account, Login and Check Token', () => {
   })
 
   beforeEach((done) => {
-    dog.save();
+    user = new userModel(userDetails)
+    user.save()
     done();
   });
 
   afterEach((done) => {
-    User.deleteMany({}, function(err) {});
+    userModel.deleteMany({}, function(err) {});
     done();
   })
 
@@ -54,7 +49,7 @@ describe('Create Account, Login and Check Token', () => {
       .end((err, res) => {
         res.should.have.status(200);
         res.body.should.be.a.jsonObj()
-        res.body[0].name.should.be.eql("dog");
+        res.body[0].name.should.be.eql("Billy");
         done();
       });
     });
@@ -64,14 +59,15 @@ describe('Create Account, Login and Check Token', () => {
     it('it should add a new user', (done) => {
       chai.request(server)
       .post('/users')
-      .send(user_details)
+      .set('content-type', 'application/json')
+      .send(postDetails)
       .end((err, res) => {
-        res.should.have.status(201);
+        res.should.have.status(200);
         chai.request(server)
         .get('/users')
         .end((err, res) => {
           res.should.have.status(200);
-          res.body[0].name.should.be.eql('Billy');
+          res.body[1].name.should.be.eql('James');
           done();
         });
       });
@@ -80,65 +76,60 @@ describe('Create Account, Login and Check Token', () => {
   describe('/GET users/id', () => {
     it('displays the user with the given id', (done) => {
       chai.request(server)
-      .get('/users/0')
+      .get('/users')
       .end((err, res) => {
-        res.should.have.status(200);
-        res.body.should.be.eql('John')
-        done();
-      });
+        let firstUser = res.body[0]
+        chai.request(server)
+          .get('/users/' + firstUser._id)
+          .end((err, res) => {
+            res.should.have.status(200);
+            res.body[0].name.should.be.eql('Billy')
+            done();
+          });
+      })
     });
   });
 
   describe('/DELETE users/id', () => {
     it('removes the user with the given id', (done) => {
       chai.request(server)
-      .delete('/users/3')
+      .get('/users')
       .end((err, res) => {
-        res.should.have.status(202);
+        let firstUser = res.body[0]
         chai.request(server)
-        .get('/users')
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.eql(['John', 'Betty', 'Hal'])
-          done();
-        })
-      });
-    });
-
-    it('returns 400 if id does not exist', (done) => {
-      chai.request(server)
-      .delete('/users/4')
-      .end((err, res) => {
-        res.should.have.status(400);
-        done();
-      });
+          .delete('/users/' + firstUser._id)
+          .end((err, res) => {
+            chai.request(server)
+              .get('/users')
+              .end((err, res) => {
+                res.should.have.status(200);
+                res.body.length.should.be.eql(0)
+                done();
+              })
+          });
+      })
     });
   });
 
   describe('/PUT users/id', () => {
     it('modifies the user with the given id', (done) => {
       chai.request(server)
-      .put('/users/0')
-      .send(user_details)
+      .get('/users')
       .end((err, res) => {
-        res.should.have.status(202);
+        let firstUser = res.body[0]
         chai.request(server)
-        .get('/users')
-        .end((err, res) => {
-          res.should.have.status(200);
-          res.body.should.be.eql(['Billy', 'Betty', 'Hal'])
-          done();
-        })
+          .put('/users/' + firstUser._id)
+          .send({name: 'Barry'})
+          .end((err, res) => {
+            chai.request(server)
+              .get('/users')
+              .end((err, res) => {
+                res.should.have.status(200);
+                res.body[0].name.should.be.eql("Barry")
+                done();
+              })
+          });
       })
     })
-
-    it('returns 400 if id does not exist', (done) => {
-      chai.request(server)
-      .put('/users/5')
-      .end((err, res) => {
-        res.should.have.status(400);
-        done();
-      });
-    });
   })
 });
