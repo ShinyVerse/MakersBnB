@@ -37,7 +37,7 @@ describe("UserHandler", function(){
 
   describe('#isEmailInUse', function() {
     it('returns true if the email is in use', function(done) {
-      spyOn(subject, 'queryUsers').and.returnValue(Promise.resolve(['betty@mail.co.uk']))
+      spyOn(subject, 'queryUsers').and.returnValue(Promise.resolve([{email: 'betty@mail.co.uk'}]))
       subject.isEmailInUse('betty@mail.co.uk')
         .then((res) => {
           expect(res).toEqual(true);
@@ -45,62 +45,50 @@ describe("UserHandler", function(){
         })
     })
     it('returns false if the email is not in use', function(done) {
-      subject.queryUsers = function() {
-        return new Promise((res, rej) => {
-          ['betty@mail.co.uk']
+      spyOn(subject, 'queryUsers').and.returnValue(Promise.resolve([{email: 'betty@mail.co.uk'}]))
+      subject.isEmailInUse('cameron@mail.co.uk')
+        .then((res) => {
+          expect(res).toEqual(false);
+          done();
         })
-      }
-      subject.isEmailInUse('botty@mail.co.uk').then(function(res) {
-        expect(res).toEqual(false)
-      })
     })
   })
 
   describe('#isLoginCorrect', function() {
     it('checks a given username and password against the database', function(done) {
-      subject.queryUsers = function() {
-        return new Promise((res, rej) => {
-          [{ name: 'betty@mail.co.uk', password: 'hfowepfmoamopaivgnpeanpv' }]
+      spyOn(subject, 'queryUsers').and.returnValue(Promise.resolve([{email: 'betty@mail.co.uk', password: '12345'}]))
+      subject.isLoginCorrect('betty@mail.co.uk', '12345')
+        .then((res) => {
+          expect(res).toEqual(true);
+          done();
         })
-      }
-      subject.isLoginCorrect('betty@mail.co.uk', 'hfowepfmoamopaivgnpeanpv').then(function(res) {
-        expect(res).toEqual(true);
-      })
     });
     it('does not allow the user to log in with incorrect details', function(done) {
-      subject.queryUsers = function() {
-        return new Promise((res, rej) => {
-          [{ name: 'betty@mail.co.uk', password: 'hfowepfmoamopaivgnpeanpv' }]
+      spyOn(subject, 'queryUsers').and.returnValue(Promise.resolve([{email: 'betty@mail.co.uk', password: '12345'}]))
+      subject.isLoginCorrect('betty@mail.co.uk', '12245')
+        .then((res) => {
+          expect(res).toEqual(false);
+          done();
         })
-      }
-      subject.isLoginCorrect('betty@mail.co.uk', 'notthepassword').then(function(res) {
-        expect(res).toEqual(false);
-      })
     });
   });
 
   describe('#trySignUp', function() {
     it('returns true if the sign up is successful', function(done) {
-      subject.isEmailInUse = function(email) {
-        return new Promise((res, rej) => {
-          email !== 'betty@mail.co.uk'
+      spyOn(subject, 'isEmailInUse').and.returnValue(Promise.resolve(false))
+      subject.trySignUp('Betty', 'betty@mail.co.uk', '12245')
+        .then((res) => {
+          expect(res).toEqual(true);
+          done();
         })
-      }
-      spyOn(subject, 'sendNewUser')
-      subject.trySignUp('Tom', 'miller@mail.co.uk', 'jimmy123').then(function(res) {
-        expect(res).toEqual(true)
-        expect(sendNewUser).toHaveBeenCalledWith('Tom', 'miller@mail.co.uk', 'jimmy123')
-      })
     })
     it('returns false if the sign up is unsuccessful', function(done) {
-      subject.isEmailInUse = function(email) {
-        return new Promise((res, rej) => {
-          email !== 'betty@mail.co.uk'
+      spyOn(subject, 'isEmailInUse').and.returnValue(Promise.resolve(true))
+      subject.trySignUp('Betty', 'betty@mail.co.uk', '12245')
+        .then((res) => {
+          expect(res).toEqual(false);
+          done();
         })
-      }
-      subject.trySignUp('Betty', 'betty@mail.co.uk', 'betty<3sbetty').then(function(res) {
-        expect(res).toEqual(false)
-      })
     })
   })
 });

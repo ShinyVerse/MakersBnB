@@ -37,6 +37,15 @@ describe("ListingHandler", function(){
           done();
       })
     });
+
+    it('returns nothing if user does not have listings', function(done) {
+      spyOn(subject, 'queryListings').and.returnValue(Promise.resolve([{ _id: 1, owner_id: '41rgg4jvj3t43qf4q3' }]))
+      subject.queryOwnListings('41rgg2jvj3t43qf4q3')
+        .then((res) => {
+          expect(res).toEqual([]);
+          done();
+      })
+    });
   })
 
 });

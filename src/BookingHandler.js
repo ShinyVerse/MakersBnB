@@ -18,6 +18,8 @@ BookingHandler.prototype.queryOwnBookings = function(user_id) {
       for (i = 0; i < res.length; i += 1) {
         if (res[i].booker_id === user_id) {
           output.push(res[i])
+        } else {
+          //pass
         }
       }
     }).then(() => {
@@ -25,6 +27,4 @@ BookingHandler.prototype.queryOwnBookings = function(user_id) {
     })
 }
 
-if (typeof module !== 'undefined' && module.hasOwnProperty('exports')) {
-  module.exports = BookingHandler;
-};
+module.exports = BookingHandler;

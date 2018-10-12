@@ -37,5 +37,14 @@ describe("BookingHandler", function(){
            done();
        })
      });
+
+     it('returns empty array if logged in user does not have bookings', function(done) {
+       spyOn(subject, 'queryBookings').and.returnValue(Promise.resolve([{ _id: 1, booker_id: '41rgg4jvj3t43qf4q3' }]))
+       subject.queryOwnBookings('41rgg4jvj2t43qf4q3')
+         .then((res) => {
+           expect(res).toEqual([]);
+           done();
+       })
+     });
   });
 });
