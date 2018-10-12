@@ -8,7 +8,7 @@
     "test": "jasmine",
     "test_features": "node_modules/.bin/mocha",
     "test_api": "node_modules/.bin/mocha",
-    "test_coverage": "nyc jasmine",
+    "test_coverage": "nyc --reporter=html jasmine",
     "lint": "eslint"
   },
   "repository": {

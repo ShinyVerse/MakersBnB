@@ -51,6 +51,4 @@ UserHandler.prototype.trySignUp = function(name, email, password) {
   })
 }
 
-if (typeof module !== 'undefined' && module.hasOwnProperty('exports')) {
-  module.exports = UserHandler;
-};
+module.exports = UserHandler;
