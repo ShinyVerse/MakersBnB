@@ -1,4 +1,4 @@
-var BookingHandler = require('../src/BookingHandler.js');
+var BookingHandler = require('../src/bookingHandler.js');
 
 describe("BookingHandler", function(){
   var subject;

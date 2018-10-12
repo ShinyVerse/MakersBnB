@@ -20,4 +20,4 @@ APIConnector.prototype.connect = function(action, path, params = false) {
   }
 }
 
-module.exports = APIConnector;
+module.exports = apiConnector;
