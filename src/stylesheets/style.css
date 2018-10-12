@@ -33,6 +33,7 @@ label {
 }
 
 input {
+  border: none;
   outline: none;
   font-size: 40px;
   height: 60px;
@@ -64,7 +65,7 @@ input {
 .btn:active {
   background-color: #a05ff4;
   box-shadow: 0 4px #666;
-  transform: translateY(4px);
+  transform: translateY(3px);
 }
 
 /* Listings */
@@ -95,4 +96,26 @@ input {
   margin-bottom: -17px;
   display: inline;
   width: 70px;
+}
+
+
+@media only screen and (min-width: 800px) {
+  html {
+    font-size: 30px;
+  }
+
+  .btn {
+    font-size: 20px;
+    box-shadow: 0 5px #43117c;
+  }
+
+  .btn:active {
+    box-shadow: 0 2px #666;
+  }
+
+  #allListings {
+    height: 310px;
+    flex-direction: row;
+    flex-wrap: wrap;
+  }
 }
