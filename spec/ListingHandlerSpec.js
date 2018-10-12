@@ -1,4 +1,4 @@
-var ListingHandler = require('../src/listingHandler.js');
+var ListingHandler = require('../src/ListingHandler.js');
 
 describe("ListingHandler", function(){
   var subject;
