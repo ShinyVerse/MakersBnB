@@ -1,4 +1,4 @@
-var APIConnector = require('../src/apiConnector.js');
+var APIConnector = require('../src/APIConnector.js');
 
 describe("APIConnector", function() {
   var subject;
