@@ -1,5 +1,4 @@
 var BookingHandler = require('../src/BookingHandler.js');
-const promisedData = require('./MockData/bookingData.json');
 
 describe("BookingHandler", function(){
   var subject;
@@ -22,24 +21,21 @@ describe("BookingHandler", function(){
     });
   });
 
-  describe('#retrieveBookingsList', function() {
+  describe('#queryBookings', function() {
     it('retrieves a list of all bookings', function() {
-      subject.retrieveBookingsList();
+      subject.queryBookings();
       expect(mockAPIConnector.connect).toHaveBeenCalledWith('get', '/bookings');
     })
   });
 
   describe('#queryOwnBookings', function() {
-     it('returns bookings for the logged in user', function() {
-       spyOn(subject, 'retrieveBookingsList').and.returnValue(promisedData["Bookings"]);
-       expect(subject.retrieveBookingsList).toHaveBeenCalled;
-       expect(subject.queryOwnBookings("12b")).toEqual([{
-         "id": 2,
-         "listing_id" : "173",
-         "booker_id" : "12b",
-         "date_from" : "11-10-2018",
-         "date_to" : "13-10-2018"
-       }]);
+     it('returns bookings for the logged in user', function(done) {
+       spyOn(subject, 'queryBookings').and.returnValue(Promise.resolve([{ _id: 1, booker_id: '41rgg4jvj3t43qf4q3' }]))
+       subject.queryOwnBookings('41rgg4jvj3t43qf4q3')
+         .then((res) => {
+           expect(res).toEqual([{ _id: 1, booker_id: '41rgg4jvj3t43qf4q3' }]);
+           done();
+       })
      });
   });
 });

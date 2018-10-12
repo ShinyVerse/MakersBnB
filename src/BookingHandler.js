@@ -1,21 +1,28 @@
-var APIConnector = require('./APIConnector.js')
-
 function BookingHandler(apiConnector) {
   this.apiConnector = apiConnector;
 }
 
 BookingHandler.prototype.createNewBooking = function(listing_id, booker_id, date_from, date_to) {
-  this.apiConnector.connect('post', '/bookings', {listing_id : listing_id, booker_id : booker_id,
-                                                 date_from : date_from, date_to : date_to} )
+  booking_data = {listing_id: listing_id, booker_id: booker_id, date_from: date_from, date_to: date_to}
+  this.apiConnector.connect('post', '/bookings', booking_data)
 }
 
-BookingHandler.prototype.retrieveBookingsList = function () {
-  this.apiConnector.connect('get', '/bookings')
+BookingHandler.prototype.queryBookings = function () {
+  return this.apiConnector.connect('get', '/bookings')
 }
 
 BookingHandler.prototype.queryOwnBookings = function(user_id) {
-  var bookings = this.retrieveBookingsList();
-  return bookings.filter( booking => { return booking["booker_id"] === user_id });
+  let bookings = this.queryBookings();
+  let output = []
+  return bookings.then((res, rej) => {
+      for (i = 0; i < res.length; i += 1) {
+        if (res[i].booker_id === user_id) {
+          output.push(res[i])
+        }
+      }
+    }).then(() => {
+      return output
+    })
 }
 
 if (typeof module !== 'undefined' && module.hasOwnProperty('exports')) {
