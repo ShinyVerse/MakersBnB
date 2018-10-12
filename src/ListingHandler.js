@@ -25,4 +25,4 @@ ListingHandler.prototype.queryOwnListings = function(owner_id) {
     })
 }
 
-module.exports = listingHandler;
+module.exports = ListingHandler;

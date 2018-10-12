@@ -27,4 +27,4 @@ BookingHandler.prototype.queryOwnBookings = function(user_id) {
     })
 }
 
-module.exports = bookingHandler;
+module.exports = BookingHandler;

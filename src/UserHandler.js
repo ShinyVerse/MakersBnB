@@ -51,4 +51,4 @@ UserHandler.prototype.trySignUp = function(name, email, password) {
   })
 }
 
-module.exports = userHandler;
+module.exports = UserHandler;
