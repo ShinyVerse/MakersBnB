@@ -7,15 +7,15 @@ let listHand = new ListingHandler(apiCon)
 $(document).ready(function() {
 
   $('#signUp').click(function() {
-    $('#signUpBox').show()
-    $('#signInBox').hide()
+    $('#signUpForm').show()
+    $('#signInForm').hide()
     $('#signUp').hide()
     $('#signIn').show()
   })
 
   $('#signIn').click(function() {
-    $('#signInBox').show()
-    $('#signUpBox').hide()
+    $('#signInForm').show()
+    $('#signUpForm').hide()
     $('#signIn').hide()
     $('#signUp').show()
   })
@@ -33,6 +33,18 @@ $(document).ready(function() {
     console.log(useHan.isLoginCorrect(email, password))
   })
 
+  $('#createListingBtn').click(function() {
+    $('#createListingForm').show()
+  })
+
+  $('#createListingSubmit').click(function() {
+    let address = $('#listingAddress').val()
+    let noBeds = parseInt($('#listingNoBeds').val())
+    listHand.createNewListing(address, "test", noBeds)
+  })
+
+
+  //shoud we wait until login to trigger query listings?
   listHand.queryListings().then(function(res) {
 
     for (var i = 0; i < res.length; i += 1){
@@ -47,8 +59,5 @@ $(document).ready(function() {
       + bookButton
       +"</div>");
     }
-    // $('#allListings').text(list)
   } )
-
-
 })
