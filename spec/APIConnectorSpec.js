@@ -4,7 +4,7 @@ describe("APIConnector", function() {
   var subject;
 
   beforeEach(function() {
-    mockjQuery = jasmine.createSpyObj('mockjQuery', { 'post': 202, 'get':
+    mockjQuery = jasmine.createSpyObj('mockjQuery', { 'ajax': 202, 'get':
       [ { email: 'betty@mail.co.uk', password: 'hfowepfmoamopaivgnpeanpv'} ] });
     mockRoot = "www.mockapi.com"
     subject = new APIConnector(mockjQuery, mockRoot);
@@ -25,12 +25,16 @@ describe("APIConnector", function() {
 
       var expected_request = {
         url: "www.mockapi.com/users",
-        name: 'Billy',
-        email: 'billy@mail.co.uk',
-        password: 'fewiofjweio'
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(send_param)
       }
 
-      expect(mockjQuery.post).toHaveBeenCalledWith(expected_request)
+      expect(mockjQuery.ajax).toHaveBeenCalledWith(expected_request)
+    })
+
+    it('tells the user if they have entered an invalid command', function() {
+      expect(subject.connect('invalid', '/users')).toEqual('Invalid command')
     })
   })
 })

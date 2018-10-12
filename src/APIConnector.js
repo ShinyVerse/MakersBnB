@@ -9,13 +9,14 @@ APIConnector.prototype.connect = function(action, path, params = false) {
       resolve(this.jquery.get(this.rootURL + path));
     })
   } else if (action === 'post') {
-    console.log(params)
     this.jquery.ajax({
       url: this.rootURL + path,
       type: 'POST',
       contentType: 'application/json',
       data: JSON.stringify(params)
     })
+  } else {
+    return 'Invalid command'
   }
 }
 

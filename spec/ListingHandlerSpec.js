@@ -1,6 +1,4 @@
-var ListingHandler = require('../src/ListingHandler.js');
-const promisedData = require('./MockData/listingData.json');
-
+var ListingHandler = require('../src/listingHandler.js');
 
 describe("ListingHandler", function(){
   var subject;
@@ -8,7 +6,7 @@ describe("ListingHandler", function(){
 
 
   beforeEach(function(){
-    mockAPIConnector = jasmine.createSpyObj('mockAPIConnector', { 'connect': promisedData.Listings})
+    mockAPIConnector = jasmine.createSpyObj('mockAPIConnector', { 'connect': 200 })
     mockUser = jasmine.createSpyObj('mockUser', { 'id': "01", 'name': 'Laura'} )
     subject = new ListingHandler(mockAPIConnector);
   });
@@ -31,13 +29,13 @@ describe("ListingHandler", function(){
   });
 
   describe('#queryOwnListings', function() {
-    it('returns listings for the logged in user', function() {
-      spyOn(subject, 'queryListings').and.returnValue(promisedData["Listings"]);
-      expect(subject.queryListings).toHaveBeenCalled
-      expect(subject.queryOwnListings("1a")).toEqual([{ "id": 1,"address": "66 Joey Lane",
-                                                        "owner_id": "1a", "no_beds": 4 },
-                                                        { "id": 3, "address": "54 Chandler's Place (Joey owns)",
-                                                          "owner_id": "1a", "no_beds": 4 }])
+    it('returns listings for the logged in user', function(done) {
+      spyOn(subject, 'queryListings').and.returnValue(Promise.resolve([{ _id: 1, owner_id: '41rgg4jvj3t43qf4q3' }]))
+      subject.queryOwnListings('41rgg4jvj3t43qf4q3')
+        .then((res) => {
+          expect(res).toEqual([{ _id: 1, owner_id: '41rgg4jvj3t43qf4q3' }]);
+          done();
+      })
     });
   })
 
