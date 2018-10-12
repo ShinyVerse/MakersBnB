@@ -10,7 +10,7 @@
     "test_api": "node_modules/.bin/mocha",
     "test_coverage": "nyc --reporter=html jasmine",
     "lint": "eslint",
-    "coverage": "nyc reporter --reporter=text-lcov | coveralls"
+    "coverage": "nyc --reporter=text-lcov jasmine | coveralls"
   },
   "repository": {
     "type": "git",
