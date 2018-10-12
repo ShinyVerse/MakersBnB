@@ -73,28 +73,22 @@ describe("UserHandler", function(){
     });
   });
 
-  xdescribe('#trySignUp', function() {
+  describe('#trySignUp', function() {
     it('returns true if the sign up is successful', function(done) {
-      subject.isEmailInUse = function(email) {
-        return new Promise((res, rej) => {
-          email !== 'betty@mail.co.uk'
+      spyOn(subject, 'isEmailInUse').and.returnValue(Promise.resolve(false))
+      subject.trySignUp('Betty', 'betty@mail.co.uk', '12245')
+        .then((res) => {
+          expect(res).toEqual(true);
+          done();
         })
-      }
-      spyOn(subject, 'sendNewUser')
-      subject.trySignUp('Tom', 'miller@mail.co.uk', 'jimmy123').then(function(res) {
-        expect(res).toEqual(true)
-        expect(sendNewUser).toHaveBeenCalledWith('Tom', 'miller@mail.co.uk', 'jimmy123')
-      })
     })
     it('returns false if the sign up is unsuccessful', function(done) {
-      subject.isEmailInUse = function(email) {
-        return new Promise((res, rej) => {
-          email !== 'betty@mail.co.uk'
+      spyOn(subject, 'isEmailInUse').and.returnValue(Promise.resolve(true))
+      subject.trySignUp('Betty', 'betty@mail.co.uk', '12245')
+        .then((res) => {
+          expect(res).toEqual(false);
+          done();
         })
-      }
-      subject.trySignUp('Betty', 'betty@mail.co.uk', 'betty<3sbetty').then(function(res) {
-        expect(res).toEqual(false)
-      })
     })
   })
 });
