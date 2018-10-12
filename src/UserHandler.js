@@ -22,7 +22,7 @@ UserHandler.prototype.isLoginCorrect = function(email, password) {
   return output = allUsers.then((res) => {
     for (i = 0; i < res.length; i += 1) {
       if (res[i].email === email && res[i].password === password) {
-        return true
+        return res[i]
       };
     };
     return false

@@ -5,6 +5,7 @@ let useHan = new UserHandler(apiCon)
 let listHand = new ListingHandler(apiCon)
 
 $(document).ready(function() {
+  var loginSession = null
 
   $('#signUp').click(function() {
     $('#signUpForm').show()
@@ -25,12 +26,29 @@ $(document).ready(function() {
     let email = $('#signUpEmail').val()
     let password = $('#signUpPassword').val()
     useHan.sendNewUser(name, email, password)
+    login(email, password)
   })
 
   $('#signInSubmit').click(function() {
     let email = $('#signInEmail').val()
     let password = $('#signInPassword').val()
-    console.log(useHan.isLoginCorrect(email, password))
+    login(email, password)
+  })
+
+  $('#logOutButton').click(function() {
+    $('#logOut').hide()
+    $('#signUpIn').show()
+    $('#signIn').show()
+    $('#signInForm').hide()
+    $('.btn').hide()
+    $('#createListingBtn').hide()
+    loginSession = null
+    $.ajax({
+      url: '/',
+      type: 'POST',
+      contentType: 'application/json',
+      data: null
+    })
   })
 
   $('#createListingBtn').click(function() {
@@ -40,25 +58,50 @@ $(document).ready(function() {
   $('#createListingSubmit').click(function() {
     let address = $('#listingAddress').val()
     let noBeds = parseInt($('#listingNoBeds').val())
-    listHand.createNewListing(address, "test", noBeds)
+    listHand.createNewListing(address, loginSession._id, noBeds)
+    updateListing()
   })
 
 
   //shoud we wait until login to trigger query listings?
-  listHand.queryListings().then(function(res) {
+  updateListing()
+})
 
+var updateListing = function() {
+  $('#allListings').empty()
+  listHand.queryListings().then(function(res) {
     for (var i = 0; i < res.length; i += 1){
       let bedImg = "<img class=svgBed src='/stylesheets/images/bed.svg'  />"
       let id = res[i]._id;
       let bookingId = "book" + id;
       let address = "<li> "+ res[i].address + "</li>"
+
       let beds = "<li class=bedCount> "+ res[i].no_beds + bedImg + "</li>"
-      let bookButton = "<button id=" + bookingId + " class=btn>Book now!</button>"
+      let bookButton = "<button id=" + bookingId + " class=btn hidden>Book now!</button>"
       $('#allListings').append("<div class=listItem id=" + id + ">"
       + address
       + beds
       + bookButton
       +"</div>");
     }
-  } )
-})
+  })
+}
+
+var login = function(email, password) {
+  useHan.isLoginCorrect(email, password).then(function(res) {
+    loginSession = res
+    if (res !== false) {
+      $.ajax({
+        url: '/',
+        type: 'POST',
+        contentType: 'application/json',
+        data: JSON.stringify(res)
+      })
+      $('#createListingBtn').show()
+      $('.btn').show()
+      $('#signUpIn').hide()
+      $('#logOut').show()
+    } else {
+    }
+  })
+}

@@ -5,9 +5,11 @@
 </head>
 <body>
   <h1> MakersBnB </h1>
+
+
+  <div id='signUpIn'>
   <button class="btn" id='signUp'>Sign Up</button>
   <button class="btn" id='signIn'>Sign In</button>
-
   <div id='signUpForm' hidden>
     <h3> Sign up to MakersBnB </h3>
     <label>
@@ -26,9 +28,16 @@
       <input placeholder="Password" id='signInPassword' type='password'/></label>
     <button class="btn" id ='signInSubmit'>Submit</button><br>
   </div>
+  </div>
+
+  <div id='logOut' hidden>
+    <button id='logOutButton'>Log Out</button>
+  </div>
+
+
 
   <div>
-  <button class="btn" id='createListingBtn'>Post a Listing!</button>
+  <button class="btn" id='createListingBtn' hidden>Post a Listing!</button>
   <div id='createListingForm' hidden>
     Address: <input id='listingAddress' type='text'/><br>
     Number of Beds: <input id='listingNoBeds' type='text'/><br>
