@@ -48,10 +48,11 @@ $(document).ready(function() {
   listHand.queryListings().then(function(res) {
 
     for (var i = 0; i < res.length; i += 1){
+      let bedImg = "<img class=svgBed src='/stylesheets/images/bed.svg'  />"
       let id = res[i]._id;
       let bookingId = "book" + id;
       let address = "<li> "+ res[i].address + "</li>"
-      let beds = "<li> "+ res[i].no_beds + "</li>"
+      let beds = "<li class=bedCount> "+ res[i].no_beds + bedImg + "</li>"
       let bookButton = "<button id=" + bookingId + " class=btn>Book now!</button>"
       $('#allListings').append("<div class=listItem id=" + id + ">"
       + address
