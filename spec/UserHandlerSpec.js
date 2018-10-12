@@ -59,7 +59,7 @@ describe("UserHandler", function(){
       spyOn(subject, 'queryUsers').and.returnValue(Promise.resolve([{email: 'betty@mail.co.uk', password: '12345'}]))
       subject.isLoginCorrect('betty@mail.co.uk', '12345')
         .then((res) => {
-          expect(res).toEqual(true);
+          expect(res).toEqual({ email: 'betty@mail.co.uk', password: '12345' });
           done();
         })
     });
