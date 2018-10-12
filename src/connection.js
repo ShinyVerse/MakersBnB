@@ -27,17 +27,13 @@ Connection.prototype.connect = function() {
 Connection.prototype.disconnect = function() {
   if (this.mongoose.connection.readyState === 1) {
     this.mongoose.connection.close()
-  }
+  } else {}
 }
 
 Connection.prototype.create = function(modelName, data) {
   const model = this.models[modelName]
   const newDocument = new model(data);
-  newDocument.save((err) => {
-    if (err) {
-      console.log('Error occurred')
-    }
-  });
+  newDocument.save()
 }
 
 Connection.prototype.read = function(modelName, data = {}) {
@@ -47,16 +43,12 @@ Connection.prototype.read = function(modelName, data = {}) {
 
 Connection.prototype.update = function(modelName, id, data) {
   const model = this.models[modelName]
-  model.findOneAndUpdate({_id: id}, data, {new: true}, (err, res) => {
-    if (err) {
-      console.log('Error occurred')
-    }
-  })
+  model.findOneAndUpdate({_id: id}, data, {new: true})
 }
 
 Connection.prototype.delete = function(modelName, id) {
   const model = this.models[modelName]
-  model.findOneAndDelete({_id: id}, (err, res) => {})
+  model.findOneAndDelete({_id: id})
 }
 
 module.exports = Connection;
