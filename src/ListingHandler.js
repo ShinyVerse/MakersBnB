@@ -18,10 +18,8 @@ ListingHandler.prototype.queryOwnListings = function(owner_id) {
       for (i = 0; i < res.length; i += 1) {
         if (res[i].owner_id === owner_id) {
           output.push(res[i])
-        } else {
-          //pass
-        };
-      };
+        }
+      }
     }).then(() => {
       return output
     })
