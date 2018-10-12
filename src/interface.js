@@ -3,10 +3,9 @@ let rootURL = 'http://59c11025.ngrok.io'
 let apiCon = new APIConnector(jQuery, rootURL)
 let useHan = new UserHandler(apiCon)
 let listHand = new ListingHandler(apiCon)
+let bookHand = new BookingHandler(apiCon)
 
 $(document).ready(function() {
-  var loginSession = null
-
   $('#signUp').click(function() {
     $('#signUpForm').show()
     $('#signInForm').hide()
@@ -39,10 +38,10 @@ $(document).ready(function() {
     $('#logOut').hide()
     $('#signUpIn').show()
     $('#signIn').show()
+    $('#signUp').show()
     $('#signInForm').hide()
     $('.btn').hide()
     $('#createListingBtn').hide()
-    loginSession = null
     $.ajax({
       url: '/',
       type: 'POST',
@@ -58,13 +57,25 @@ $(document).ready(function() {
   $('#createListingSubmit').click(function() {
     let address = $('#listingAddress').val()
     let noBeds = parseInt($('#listingNoBeds').val())
-    listHand.createNewListing(address, loginSession._id, noBeds)
-    updateListing()
+    let userId = $('#userId').val()
+    listHand.createNewListing(address, userId, noBeds)
+    setTimeout(function() {
+      updateListing()} , 500)
+  })
+
+  updateListing()
+
+  $(".bookingbtn").click(function() {
+    let listingId = this.id
+    let bookerId = $('#userId').val()
+    console.log(listingId, bookerId)
+    let today = new Date()
+    let nextWeek = today + 7
+    bookHand.createNewBooking(listingId, bookerId, today, nextWeek)
   })
 
 
   //shoud we wait until login to trigger query listings?
-  updateListing()
 })
 
 var updateListing = function() {
@@ -77,7 +88,7 @@ var updateListing = function() {
       let address = "<li> "+ res[i].address + "</li>"
 
       let beds = "<li class=bedCount> "+ res[i].no_beds + bedImg + "</li>"
-      let bookButton = "<button id=" + bookingId + " class=btn hidden>Book now!</button>"
+      let bookButton = "<button id=" + bookingId + " class=bookingbtn hidden>Book now!</button>"
       $('#allListings').append("<div class=listItem id=" + id + ">"
       + address
       + beds
@@ -89,7 +100,6 @@ var updateListing = function() {
 
 var login = function(email, password) {
   useHan.isLoginCorrect(email, password).then(function(res) {
-    loginSession = res
     if (res !== false) {
       $.ajax({
         url: '/',
@@ -98,7 +108,7 @@ var login = function(email, password) {
         data: JSON.stringify(res)
       })
       $('#createListingBtn').show()
-      $('.btn').show()
+      $('.bookingbtn').show()
       $('#signUpIn').hide()
       $('#logOut').show()
     } else {
