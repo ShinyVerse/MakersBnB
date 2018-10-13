@@ -3,7 +3,8 @@ function BookingHandler(apiConnector) {
 }
 
 BookingHandler.prototype.createNewBooking = function(listing_id, booker_id, date_from, date_to) {
-  booking_data = {listing_id: listing_id, booker_id: booker_id, date_from: date_from, date_to: date_to}
+  booking_data = { listing_id: listing_id, booker_id: booker_id, date_from: date_from, date_to: date_to}
+  console.log(booking_data)
   this.apiConnector.connect('post', '/bookings', booking_data)
 }
 

@@ -9,6 +9,7 @@ APIConnector.prototype.connect = function(action, path, params = false) {
       resolve(this.jquery.get(this.rootURL + path));
     })
   } else if (action === 'post') {
+    console.log(JSON.stringify(params))
     this.jquery.ajax({
       url: this.rootURL + path,
       type: 'POST',
