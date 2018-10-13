@@ -37,7 +37,7 @@ Next, go to the `src/inferface.js` file and change the `RootURL` on line 1:
 ```javascript
 let rootURL = 'http://localhost:3000'
 ```
-To open the front end, open `index.html` in a browser.
+To open the front end, run `node frontend.js`.
 
 ## Technologies
 The remote API has been built using Node.js with Express.js for the routing and Mongoose for integration with the MongoDB database. The `Connection` class uses the Mongoose `Schema` constructor to structure the database. The Schema themselves are quite simple:
