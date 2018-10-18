@@ -77,7 +77,7 @@ Lastly, out front end has been very nicely styled with CSS, and is compatible wi
 
 ## MVP User stories
 
-We started with a list of six user stories which represented our minimum viable product, all of which have been implemented.
+We started with a list of five user stories which represented our minimum viable product, all of which have been implemented.
 
 ### User authentication
 ```
@@ -95,11 +95,6 @@ So that I can access my profile
 As a signed in user
 I can post a listing
 So that other users can see it
-```
-```
-As a user who's made a listings
-I can choose to confirm bookings
-So that I can control who stays at my property
 ```
 ### Users can manage bookings
 ```
